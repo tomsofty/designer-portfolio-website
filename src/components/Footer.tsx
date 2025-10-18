@@ -1,7 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import Icon from "@/components/ui/icon";
 
 const Footer = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/e78bb9b6-a7ea-4a29-aab7-edbd012bb2fb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast({
+          title: "Заявка отправлена!",
+          description: data.message,
+          duration: 5000,
+        });
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        throw new Error(data.error || 'Ошибка отправки');
+      }
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось отправить заявку. Попробуйте позже.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <footer className="bg-primary/10 py-16">
       <div className="container">
@@ -9,27 +59,119 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">Давайте работать вместе</h3>
             <p className="text-muted-foreground mb-6">
-              Готовы обсудить ваш проект? Свяжитесь со мной, чтобы мы могли создать что-то замечательное.
+              Готовы обсудить ваш проект? Заполните форму, и я свяжусь с вами в ближайшее время.
             </p>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Связаться
-            </Button>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Ваше имя *"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="bg-white/80 border-primary/20"
+                />
+              </div>
+              
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Email *"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="bg-white/80 border-primary/20"
+                />
+              </div>
+              
+              <div>
+                <Input
+                  type="tel"
+                  placeholder="Телефон"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="bg-white/80 border-primary/20"
+                />
+              </div>
+              
+              <div>
+                <Textarea
+                  placeholder="Расскажите о вашем проекте"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="bg-white/80 border-primary/20 min-h-[100px]"
+                />
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
+                    Отправка...
+                  </>
+                ) : (
+                  <>
+                    <Icon name="Send" className="mr-2 h-4 w-4" />
+                    Отправить заявку
+                  </>
+                )}
+              </Button>
+            </form>
           </div>
           
           <div>
-            <h3 className="text-xl font-medium mb-4">Подпишитесь на рассылку</h3>
-            <p className="text-muted-foreground mb-4">
-              Получайте новости о моих проектах и полезные материалы о дизайне
-            </p>
-            <div className="flex gap-2">
-              <Input 
-                type="email" 
-                placeholder="Ваш email" 
-                className="bg-white/80 border-primary/20"
-              />
-              <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-                Подписаться
-              </Button>
+            <h3 className="text-xl font-medium mb-4">Контактная информация</h3>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <Icon name="Mail" className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-medium">Email</p>
+                  <p className="text-muted-foreground">designer@example.com</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <Icon name="Phone" className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-medium">Телефон</p>
+                  <p className="text-muted-foreground">+7 (999) 123-45-67</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <Icon name="MapPin" className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-medium">Локация</p>
+                  <p className="text-muted-foreground">Москва, Россия</p>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-medium mb-4">Социальные сети</h3>
+              <div className="flex gap-3">
+                <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/10">
+                  <Icon name="Facebook" className="w-5 h-5" />
+                  <span className="sr-only">Facebook</span>
+                </Button>
+                <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/10">
+                  <Icon name="Instagram" className="w-5 h-5" />
+                  <span className="sr-only">Instagram</span>
+                </Button>
+                <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/10">
+                  <Icon name="Twitter" className="w-5 h-5" />
+                  <span className="sr-only">Twitter</span>
+                </Button>
+                <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/10">
+                  <Icon name="Linkedin" className="w-5 h-5" />
+                  <span className="sr-only">LinkedIn</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -39,24 +181,9 @@ const Footer = () => {
             © {new Date().getFullYear()} Имя Дизайнера. Все права защищены.
           </p>
           
-          <div className="flex gap-4">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              <span className="sr-only">Facebook</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              <span className="sr-only">Instagram</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-              <span className="sr-only">Twitter</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-              <span className="sr-only">LinkedIn</span>
-            </Button>
-          </div>
+          <p className="text-sm text-muted-foreground">
+            Создано с <Icon name="Heart" className="inline w-4 h-4 text-red-500" /> в poehali.dev
+          </p>
         </div>
       </div>
     </footer>
