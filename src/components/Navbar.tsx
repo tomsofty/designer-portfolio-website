@@ -11,9 +11,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b py-4">
       <div className="container flex items-center justify-between">
-        <Link to="/" className="text-xl font-medium">
-          Имя Дизайнера
-        </Link>
+        <Link to="/" className="text-xl font-medium">Анна</Link>
         
         <div className="flex gap-8">
           <Link 
