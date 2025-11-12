@@ -5,7 +5,7 @@ const Navbar = () => {
   const location = useLocation();
   
   const isActive = (path: string) => {
-    return location.hash === path;
+    return location.pathname === path || location.hash === path;
   };
 
   return (
@@ -15,16 +15,16 @@ const Navbar = () => {
         
         <div className="flex gap-8">
           <Link 
-            to="#about" 
+            to="/about" 
             className={cn(
               "relative px-1 py-2 hover:text-primary transition-colors duration-200",
-              isActive("#about") && "text-primary"
+              isActive("/about") && "text-primary"
             )}
           >
             Обо мне
           </Link>
           <Link 
-            to="#portfolio" 
+            to="/#portfolio" 
             className={cn(
               "relative px-1 py-2 hover:text-primary transition-colors duration-200",
               isActive("#portfolio") && "text-primary"
@@ -33,7 +33,7 @@ const Navbar = () => {
             Мои работы
           </Link>
           <Link 
-            to="#testimonials" 
+            to="/#testimonials" 
             className={cn(
               "relative px-1 py-2 hover:text-primary transition-colors duration-200",
               isActive("#testimonials") && "text-primary"
