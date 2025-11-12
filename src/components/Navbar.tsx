@@ -24,10 +24,10 @@ const Navbar = () => {
             Обо мне
           </Link>
           <Link 
-            to="/#portfolio" 
+            to="/portfolio" 
             className={cn(
               "relative px-1 py-2 hover:text-primary transition-colors duration-200",
-              isActive("#portfolio") && "text-primary"
+              isActive("/portfolio") && "text-primary"
             )}
           >
             Мои работы
