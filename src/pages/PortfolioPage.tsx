@@ -9,7 +9,7 @@ const paintings = [
     title: "Закат над морем",
     size: "60x80 см",
     price: "15 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&q=80",
     description: "Акрил на холсте"
   },
   {
@@ -17,7 +17,7 @@ const paintings = [
     title: "Горный пейзаж",
     size: "50x70 см",
     price: "12 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
     description: "Масло на холсте"
   },
   {
@@ -25,7 +25,7 @@ const paintings = [
     title: "Цветущий сад",
     size: "70x90 см",
     price: "18 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&q=80",
     description: "Акрил на холсте"
   },
   {
@@ -33,7 +33,7 @@ const paintings = [
     title: "Абстракция в синем",
     size: "80x100 см",
     price: "22 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=80",
     description: "Смешанная техника"
   },
   {
@@ -41,7 +41,7 @@ const paintings = [
     title: "Осенний лес",
     size: "60x80 см",
     price: "16 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
     description: "Масло на холсте"
   },
   {
@@ -49,7 +49,7 @@ const paintings = [
     title: "Городская панорама",
     size: "90x120 см",
     price: "25 000 ₽",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80",
     description: "Акрил на холсте"
   }
 ];
