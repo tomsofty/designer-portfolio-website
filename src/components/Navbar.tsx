@@ -33,10 +33,10 @@ const Navbar = () => {
             Мои работы
           </Link>
           <Link 
-            to="/#testimonials" 
+            to="/testimonials" 
             className={cn(
               "relative px-1 py-2 hover:text-primary transition-colors duration-200",
-              isActive("#testimonials") && "text-primary"
+              isActive("/testimonials") && "text-primary"
             )}
           >
             Отзывы
