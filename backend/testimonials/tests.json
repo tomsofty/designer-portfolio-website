@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "GET testimonials - empty list",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "testimonials": []
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "POST testimonials - create new",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Тестовый Клиент",
+        "role": "CEO, Test Company",
+        "content": "Отличная работа!"
+      },
+      "expectedStatus": 201,
+      "expectedBody": {
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
